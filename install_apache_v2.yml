@@ -1,0 +1,28 @@
+---
+- hosts: all
+  become: true
+  tasks:
+
+  - name: install apache2 package
+    ansible.builtin.apt:
+      name: 
+        - apache2
+        - libapache2-mod-php
+      state: latest
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu" 
+
+
+  - name: update repository index
+    dnf5:
+      update_cache: true
+    when: ansible_distribution == "Fedora" 
+
+  - name: install apache2 package
+    dnf5:
+      name: 
+        - httpd
+        - php
+      state: latest
+      update_cache: yes
+    when: ansible_distribution == "Fedora" 
